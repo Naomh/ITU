@@ -1,0 +1,248 @@
+<!--
+  @project Roadmap
+  @author xsvond00
+-->
+
+<mat-card class="user-card" ngif>
+  <mat-card-header>
+    <!-- <div mat-card-avatar class="user-header-image"></div>-->
+    <mat-card-title class="title"><div class="row"><div class="col-md-6">{{user?.username }}</div>
+      <mat-chip-list class="col-md-6" matSuffix style="position: absolute; left: 200px; top: 20px;">
+      <mat-chip  *ngIf="user?.role_id == 0 || roleEdit" (click)="updateRid(0)">Člen</mat-chip>
+      <mat-chip  *ngIf="user?.role_id == 1 || roleEdit" color="primary" (click)="updateRid(1)" selected>Moderátor</mat-chip>
+      <mat-chip  *ngIf="user?.role_id == 2 || roleEdit"  (click)="updateRid(2)" color="accent" selected>Admin</mat-chip>
+    </mat-chip-list>
+  </div>
+     </mat-card-title>
+    <mat-card-subtitle class="subtitle">User profile</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="image-box">
+        <img
+          class="image" [class.edit]="!disabled"
+          [src]="getProfile_photo_name()"
+          alt="profile image"
+        />
+        <div *ngIf="!disabled" (click)="fileInput.click()" class="overlay">Change picture</div>
+        <form id="fileForm" #fileForm>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+      </form>
+      </div>
+
+    <div class="col-md-6 form-box">
+      <div class="user-info">
+        <form [formGroup]="loginForm" class="form-container">
+          <mat-card class="form-card-login">
+            <mat-card-header> </mat-card-header>
+            <mat-card-content>
+              <mat-form-field style="width:100%;" class="full-width">
+                <input formControlName="username" style="width:100%;" matInput placeholder="Přezdívka" [value]="user?.username" />
+              </mat-form-field>
+              <div>
+                <mat-form-field *ngIf="!disabled || user?.firstname!==''" style="width:100%;" class="full-width">
+                  <input matInput formControlName="firstname" style="width:100%;" placeholder="jméno" [value]="user?.firstname">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field *ngIf="user?.lastname !== '' || !disabled" style="width:100%;" class="full-width">
+                  <input matInput  formControlName="lastname" style="width:100%;" mat placeholder="Příjmení" [value]="user?.lastname">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field style="width:100%;" class="full-width">
+                  <input formControlName="email" style="width:100%;" matInput placeholder="E-mail" [value]="user?.email">
+                </mat-form-field>
+                  </div>
+                  <div>
+                    <mat-form-field *ngIf="user?.brief !== '' || !disabled" style="width:100%;" class="full-width">
+                      <textarea  formControlName="brief" style="width:100%;" matInput placeholder="O mně..." [value]="user?.brief"></textarea>
+                    </mat-form-field>
+                      </div>
+                      <div>
+                        <mat-form-field *ngIf="!disabled" style="width:100%;" class="full-width">
+                          <input formControlName="password" type="password" style="width:100%;" matInput placeholder="Heslo">
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <mat-form-field *ngIf="!disabled" style="width:100%;" class="full-width">
+                          <input formControlName="passwordConfirm" type="password" style="width:100%;" matInput placeholder="Heslo znovu">
+                        </mat-form-field>
+                      </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button *ngIf="!disabled" mat-button (click)="updateProfile()" >SAVE</button>
+              <button *ngIf="!disabled" mat-button-alert (click)="openDialog()" >DELETE ACCOUNT</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button *ngIf="CanEdit() && disabled" (click)="editInfo()"> <mat-icon>edit</mat-icon> EDITOVAT</button>
+    <button mat-button *ngIf="!disabled" (click)="cancel()">CANCEL</button>
+    <button mat-button *ngIf="CanLogout()" (click)="logOut()">LOG OUT</button>
+  </mat-card-actions>
+</mat-card>
+
+
+<div class="container" style="overflow-y: visible;">
+  <mat-tab-group mat-align-tabs="center" style="overflow-y: visible; height: 100%;">
+    <mat-tab label="Splněné úkoly">
+  <div class="row" style="height: 100vh;">
+    <div class="deck col-md-4 "*ngFor="let badge of user?.badges">
+      <div class="card hovercard">
+        <div class="front face">
+          <h2>{{badge.name}}</h2>
+          <img class="badge image" [src]="getpath(badge.img_path)">
+          <div class="bottext">
+            <h3>{{badge.xp_value}}xp</h3>
+          </div>
+        </div>
+        <div class="back face">
+          <h2>{{badge.name}}</h2>
+          <div class="description">
+            {{badge.description}}
+          </div>
+          <div class="botprice">
+            <h3>{{badge.xp_value}}xp</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-tab>
+  <mat-tab label="Nesplněné úkoly">
+  <div class="row" style="height: 100vh;">
+    <div class="deck col-md-3 unachieved" *ngFor="let badge of user.f_badges">
+      <div class="card hovercard">
+        <div class="front face">
+          <h2>{{badge.name}}</h2>
+          <img class="badge image" [src]="getpath(badge.img_path)">
+          <div class="bottext">
+            <h3>{{badge.xp_value}}xp</h3>
+          </div>
+        </div>
+        <div class="back face">
+          <h2>{{badge.name}}</h2>
+          <div class="description">
+            {{badge.description}}
+          </div>
+          <div class="botprice">
+            <h3>{{badge.xp_value}}xp</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">The more the merrier</div>
+    <div class="backside">Sdílej stránku na sociálních sítích</div>
+  </div>
+    <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Humble comment giver</div>
+    <div class="backside">Napiš první komentář</div>
+  </div>
+    <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Our fate is in the stars</div>
+    <div class="backside">Ohodnoť první akci</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Get A Life</div>
+    <div class="backside">Zúčastni se první akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Math wizard</div>
+    <div class="backside">Zůčastni se matematické akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Hackerman</div>
+    <div class="backside">Zůčastni se IT akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Tree hugger</div>
+    <div class="backside">Zůčastni se biologické akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Andrenaline</div>
+    <div class="backside">Zůčastni se sportovní akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">People person</div>
+    <div class="backside">Zůčastni se humanitní akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Leonardo da Vinci</div>
+    <div class="backside">Zůčastni se umělecké akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Helpful person</div>
+    <div class="backside">Zůčastni se dobrovolnické akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Napoleon</div>
+    <div class="backside">Zůčastni se historické akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Ferdinard Magellan</div>
+    <div class="backside">Zůčastni se zahraniční akce</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Points hoarder</div>
+    <div class="backside">Posbírej 1000 bodů</div>
+  </div>
+  <div class="col-sm-3 achievement mainflip">
+    <div class="frontside">To experience or not to experience?</div>
+  <div class="backside">Zůčastni se 5 akcí</div>
+</div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">There is no place like away from home</div>
+    <div class="backside">Zůčastni se 10 akcí</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Hey! Teacher! Leave us kids alone!</div>
+    <div class="backside">Zůčastni se 15 akcí</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">Easier said then done</div>
+    <div class="backside">Zorganizuj akci</div>
+  </div>
+      <div class="col-sm-3 achievement mainflip">
+      <div class="frontside">I'll be back. -Terminator</div>
+      <div class="backside">Zůčastni podruhé stejné akce</div>
+    </div>
+    -->
+  </div>
+
+  </mat-tab>
+  <mat-tab label="Oblíbené akce">
+    <div class="row" style="margin: auto;">
+     <mat-card  class="boxes mat-elevation-z4 col-md-4" style="margin: 15px; padding: 0px;align-content: center;" *ngFor="let event of favorites">
+      <div class="card-img" [ngStyle]="{ 'background-image': 'url(' + getImage(event.img_path) + ')'}"></div>
+      <div class="card-img-overlay">
+        <a class="btn btn-light btn-sm">{{decodeDuration(event.duration_type)}}</a>
+        <button mat-icon-button color="accent" class="starred" style="float:right;" (click)="unstar(event.event_id)">
+          <mat-icon>star</mat-icon>
+        </button>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">{{event.name}}</h4>
+          <small>Organizátor: {{event.org_name}}</small>
+        <p class="card-text">{{ event.description | slice:0:200 }}{{event.description.length > 200 ? '...' : ''}}</p>
+        <a (click)="setViewed(event.event_id)" class="btn btn-info">Detail</a>
+      </div>
+      <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
+        <div class="categorie-card">
+          Témata: {{decodeTopicTagBa(event.topic_tag_ba)}}
+        <br>
+          Určeno pro: {{decodeTypeTagBa(event.targetg_tag_ba)}}
+        </div>
+      </div>
+  </mat-card>
+  </div>
+  </mat-tab>
+</mat-tab-group>
+</div>

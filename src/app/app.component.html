@@ -1,0 +1,72 @@
+<!--
+  @project Roadmap
+  @author xkrizv03
+-->
+
+<nav class="navbar navbar-expand-lg navbar navbar-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <a class="navbar-brand" routerLink="/home">
+        <img src="../assets/AppImages/first.png" class="logo" alt="logo">
+        <img src="../assets/AppImages/title.png" class="logo" alt="roadmap">
+      </a>
+      <div class="outer-menu">
+        <input id="checkboxtoggle" class="checkbox-toggle" type="checkbox" />
+        <div class="hamburger">
+          <div></div>
+        </div>
+        <div class="menu">
+          <div>
+            <div>
+              <ul>
+                <li *ngIf="!User.isLogged()"><a routerLink="/login" (click)="toggleMenu()" >Log in</a></li>
+                <li *ngIf="User.isLogged()" ><a routerlink="/profile" (click)="toUser(); toggleMenu()">Profil</a></li>
+                <li><a routerLink="/home"  (click)="toggleMenu()">Domovská stránka</a></li>
+                <li><a routerLink="/database"  (click)="toggleMenu()">Databáze akcí</a></li>
+                <li><a routerLink="/calendar"  (click)="toggleMenu()">Kalendář</a></li>
+                <li (click)="User.logOut()" *ngIf="User.isLogged()"><a href="#"  (click)="toggleMenu()"> Sign Out </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+<div class="wrapper" [@routeAnimations]="prepareRoute(outlet)" id="wrapper">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>
+
+
+<div class="mt-5 pt-5 pb-5 footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-xs-12 o-nas">
+        <h2>Rozšířená databáze mimoškolních aktivit</h2>
+        <p class="pr-5 text">Jelikož víme, jak těžké a nepřehledné může být hledat vhodné příležitosti jak využít svůj volný čas, vytvořili jsme tyto stránky. <br>
+          </p>
+        <p><a href="#"><i style="margin: 5px;" class="fa fa-facebook-square mr-1"></i></a><a href="#"><i class="fa fa-linkedin-square"></i></a></p>
+      </div>
+      <div class="col-lg-3 col-xs-12 links">
+        <h2 class="mt-lg-0 mt-sm-3">Odkazy</h2>
+          <ul class="m-0 p-0">
+            <li> <a routerLink="/home">Domovská stránka</a></li>
+            <li> <a routerLink="/database">Databáze akcí</a></li>
+            <li> <a routerLink="/calendar">Kalendář</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-4 col-xs-12 location">
+<span style="color: rgb(196, 196, 196);font-size: 17px;margin-right: 10px;">Jsi organizátor?</span> <button mat-button style="font-weight:bold ;" routerLink="/NewEvent" >Přidej akci</button>
+<br><br>
+<p>Líbí se ti tyto stránky? <br>Nezapomeň poslat odkaz kamarádům a domluvit se na společné aktivitě.</p>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col copyright">
+        <p class=""><small class="text-white-50">© 2021. All Rights Reserved.</small></p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+

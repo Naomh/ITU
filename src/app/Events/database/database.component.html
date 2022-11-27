@@ -1,0 +1,150 @@
+<!--
+  @project Roadmap
+  @author xhencl02
+-->
+
+<div mat-elevation-z4 class="background">
+<div class="chip-selection">
+  <div class="container">
+    <div class="row">
+      <mat-chip-list class="groups col-md-8">
+          <mat-chip (click)="toggleShow1()" class="center chip-bar" style="margin:0 auto 10px auto;background-color:#F8B761;">Typ akce</mat-chip>
+          <mat-chip (click)="toggleShow2()" class="center chip-bar" style="margin:0 auto 10px auto;background-color:#8D5ECD;">Délka akce</mat-chip>
+          <mat-chip (click)="toggleShow3()" class="center chip-bar" style="margin:0 auto 10px auto;background-color:#FD8590;">Téma akce</mat-chip>
+          <mat-chip (click)="toggleShow4()" class="center chip-bar" style="margin:0 auto 10px auto;background-color:#5284f4;">Věková skupina</mat-chip>
+        </mat-chip-list>
+
+        <mat-form-field class="chip-input col-md-3" style="padding-top: 0;" appearance="fill">
+           <mat-chip-list #chipList aria-label="Chip selection">
+
+      <input
+        placeholder="Rychlý výběr kategorií"
+        #chipIn
+        [formControl]="chipCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let chip of filteredChips | async" [value]="chip">
+        {{chip.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  </div>
+
+<div *ngIf="isShown1" class="chip-list">
+  <mat-chip-list class="groups">
+    <mat-chip class="chip-m" *ngFor="let Item of EventTypes" (click)="addToSearch(Item.name, Item.id,'type')">{{Item.name}}</mat-chip>
+  </mat-chip-list>
+</div>
+<div *ngIf="isShown2" class="chip-list">
+  <mat-chip-list class="groups">
+    <mat-chip class="chip-m" *ngFor="let Item of EventLength" (click)="addToSearch(Item.name, Item.id,'len')">{{Item.name}}</mat-chip>
+  </mat-chip-list>
+</div>
+<div *ngIf="isShown3" class="chip-list">
+  <mat-chip-list class="groups">
+    <mat-chip class="chip-m" *ngFor="let Item of EventTopics" (click)="addToSearch(Item.name, Item.id,'topic')">{{Item.name}}</mat-chip>
+  </mat-chip-list>
+</div>
+<div *ngIf="isShown4" class="chip-list">
+  <mat-chip-list class="groups">
+  <mat-chip class="chip-m" *ngFor="let Item of EventSchool" (click)="addToSearch(Item.name, Item.id,'tg')">{{Item.name}}</mat-chip>
+</mat-chip-list>
+</div>
+</div>
+</div>
+
+<div class="filtering">
+
+
+
+    <!-- Search form -->
+<form class="form-inline waves-light form" mdbWavesEffect>
+
+    <div class="md-form mt-0 search" style="display: flex;">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+      <input [(ngModel)]="search.q" [ngModelOptions]="{standalone: true}" class="form-control mr-sm-2" type="text" placeholder="Hledat podle obsahu">
+    </div>
+  </form>
+
+
+</div>
+<div class="selection">
+      <mat-chip class="selected-chips"
+      *ngFor="let chip of chips"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(chip)">
+      {{chip.key}}
+      <button matChipRemove *ngIf="removable">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <mat-chip *ngIf="chips.length > 0" (click)="chips = []" class="removeChip">Smazat vše</mat-chip>
+
+
+</div>
+
+<div class="search-area">
+<button mat-button class="search-button" (click)="searchEvents()">Hledat</button>
+</div>
+</div>
+
+
+<div class="content">
+  <div class="fit-search">
+    <button mat-button class="add-button"  (click)="toNewEvent()">Přidat akci</button>
+
+<mat-form-field appearance="fill" style="float: right;"class="sort">
+  <mat-label>Řadit akce podle</mat-label>
+  <mat-select (selectionChange)="changeSort($event)">
+    <mat-option value="2">Nejnovější přidané</mat-option>
+    <mat-option value="0">Oblíbené nyní</mat-option>
+    <mat-option value="1">Nejlépe hodnocené</mat-option>
+    <mat-option value="3">Nejnižší ceny</mat-option>
+    <mat-option value="4">Nejblížší termín</mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+
+<div class="eventCol">
+<div class="row">
+
+  <mat-card  class="boxes mat-elevation-z4 col-md-4" *ngFor="let event of Events">
+      <div class="card-img" style="background-image: url(../../../assets/AppImages/cat.jpg)"></div>
+      <div class="card-img-overlay">
+        <a class="btn btn-light btn-sm">{{decodeDuration(event.duration_type)}}</a>
+        <button *ngIf="isLogged()" mat-icon-button color="accent" [ngClass]="isFav(event.event_id)? 'starred' : 'default'" style="float:right;" (click)="isFav(event.event_id)? unstar(event.event_id): star(event.event_id)">
+          <mat-icon>star</mat-icon>
+        </button>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title">{{event.name}}</h4>
+          <small>Organizátor: {{event.org_name}}</small>
+        <p class="card-text">{{ event.description | slice:0:200 }}{{event.description.length > 200 ? '...' : ''}}</p>
+        <a (click)="setViewed(event.event_id)" class="btn btn-info">Detail</a>
+      </div>
+      <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
+        <div class="categorie-card">
+          Témata: {{decodeTopicTagBa(event.topic_tag_ba)}}
+        <br>
+          Určeno pro: {{decodeTypeTagBa(event.targetg_tag_ba)}}
+        </div>
+        <div class="stats">
+             <i class="far fa-eye"></i> {{event.counter}}
+        </div>
+      </div>
+  </mat-card>
+
+</div>
+</div>
+
+<mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+</mat-paginator>
+</div>

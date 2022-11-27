@@ -1,0 +1,325 @@
+<!--
+  @project Roadmap
+  @author xhencl02
+-->
+
+
+<!-- <mat-card class="user-card" ngif> -->
+  <mat-card-header>
+    <!-- <div mat-card-avatar class="user-header-image"></div>-->
+    <mat-card-title class="title">
+      <div class="row">
+        <div class="col-md-6 event-title" style="width: 400px;line-height: 40px;">{{Event.name}}</div>
+      <mat-chip-list class="col-md-6" matSuffix style="position: absolute; left: 200px; top: 20px;">
+    </mat-chip-list>
+  </div>
+     </mat-card-title>
+    <mat-card-actions style="margin: 0 0 0 auto;">
+      <button mat-button *ngIf="CanEdit() && disabled && !creatorMode" (click)="editInfo()"> <mat-icon>edit</mat-icon></button>
+      <button class="closebutton" mat-button mat-dialog-close><mat-icon>close</mat-icon></button>
+    </mat-card-actions>
+  </mat-card-header>
+  <mat-card-content [ngClass]="creatorMode? 'creator' : 'casual'">
+    <div class="row">
+
+
+      <h1 *ngIf="creatorMode" >Přidat akci</h1>
+
+      <div class="image-box" >
+        <div class="card-img" [class.edit]="!disabled || creatorMode" style="background-image: url({{Event.img_path}});"></div>
+        <div *ngIf="!disabled || creatorMode" (click)="fileInput.click()" class="overlay">Change picture</div>
+        <form id="fileForm" #fileForm>
+        <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+      </form>
+      </div>
+
+
+    <div class="col-md-6 form-box">
+      <div class="nadpis">Obecné informace</div>
+      <div class="user-info">
+        <form [formGroup]="eventForm" class="form-container">
+          <mat-card class="form-card-login" style="padding: 5px 10px 0 10px;">
+            <mat-card-header> </mat-card-header>
+            <mat-card-content>
+              <mat-form-field style="width:100%;" class="full-width">
+                <input formControlName="eventname" style="width:100%;" matInput placeholder="Název akce" [value]=Event.name/>
+              </mat-form-field>
+              <div>
+                <mat-form-field style="width:100%;" class="full-width">
+                  <input formControlName="org" style="width:100%;" matInput placeholder="Organizator" [value]=Event.org_name/>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field style="width:100%;" class="full-width">
+                  <input formControlName="location" style="width:100%;" matInput placeholder="Lokace" [value]=Event.location>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field style="width:100%;" class="full-width">
+                  <input formControlName="price" style="width:100%;" matInput placeholder="Cena" [value]=Event.price>
+                </mat-form-field>
+              </div>
+              <div>
+                <div>
+                  <mat-form-field style="width:100%;" class="full-width">
+                    <textarea  formControlName="desc" style="height: 8em;"  matInput placeholder="O akci"  [value]=Event.description></textarea>
+                  </mat-form-field>
+                </div>
+                <mat-form-field *ngIf="!disabled" style="width:100%;" class="full-width"> <!-- tady jich může být víc -->
+                  <input formControlName="url" style="width:100%;" matInput placeholder="Webové stránky">
+                </mat-form-field>
+                  </div>
+                <mat-chip-list>
+                  <a *ngFor="let link of Event.links" href="{{link.url}}" target="_blank"><mat-chip >{{link.url}}</mat-chip></a>
+                </mat-chip-list>
+            </mat-card-content>
+            <mat-card-actions>
+              <button *ngIf="!disabled" mat-button (click)="save()">SAVE</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>
+      </div>
+
+      <div class="col-md-6 kategorie-vyber">
+        <div class="chip-choose">
+          <div class="nadpis">Kategorie</div>
+
+        <mat-accordion >
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                              (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Typ akce
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list class="groups" >
+              <mat-chip  class="chip-m" *ngFor="let Item of EventTypes">{{Item.name}}</mat-chip>
+            </mat-chip-list>          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Délka akce
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list class="groups">
+              <mat-chip class="chip-m" *ngFor="let Item of EventLength" >{{Item.name}}</mat-chip>
+            </mat-chip-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Téma akce
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list class="groups">
+              <mat-chip class="chip-m" *ngFor="let Item of EventTopics" >{{Item.name}}</mat-chip>
+            </mat-chip-list>          </mat-expansion-panel>
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Věková skupina
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list class="groups">
+              <mat-chip class="chip-m" *ngFor="let Item of EventSchool" >{{Item.name}}</mat-chip>
+            </mat-chip-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      </div>
+
+      <!--
+      <div class="col-md-6" style="margin-left: 7%; margin-bottom: 15px;">
+        <div class="nadpis">Důležité termíny</div>
+
+        <div class="term-box">
+          <form [formGroup]="eventForm" class="form-container">
+            <mat-card class="form-card-login" style="padding: 5px 10px 0 10px;">
+              <mat-card-header> </mat-card-header>
+              <mat-card-content>
+                <mat-form-field style="width:100%;" class="full-width">
+                  <mat-label>Zadat termín</mat-label>
+                  <mat-date-range-input *ngIf="CanEdit() && disabled" [rangePicker]="picker" [formGroup]="range">
+                    <input matStartDate formControlName="start" placeholder="Od datumu">
+                    <input matEndDate formControlName="end" placeholder="Do datumu">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+                <button mat-raised-button *ngIf="CanEdit() && !disabled" class="m-auto">Přidat další termín</button>
+                <div class="time-value">
+                {{range.value}}
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </form>
+        </div>
+        </div>
+        -->
+        <div class="col-md-6" style="margin-left: 7%; margin-bottom: 15px;">
+          <div *ngIf="Event.terms && Event.terms.length > 0 || creatorMode" class="nadpis">Důležité termíny
+            <div style="font-size: 13px;" *ngFor="let date of Event.terms">
+            <div class="row">
+              <div class="col-md-4"><b>{{date.name}}</b></div>
+              <div class="col-md-5">{{date.start_date}}<span *ngIf="date.end_date"> - {{date.start_date}}</span></div>
+
+            </div>
+        </div>
+
+          <div style="font-size: small;" class="term-box" *ngIf="creatorMode">
+            <div class="row">
+            <label id="example-radio-group-label">Zadat termín konání</label>
+            <mat-radio-group aria-label="Select an option"><br>
+              <mat-radio-button value="1">Jednodenní
+                 <mat-form-field appearance="fill" style="margin-left: 10px; width: 252px;">
+                <mat-label>Vybrat den</mat-label>
+                <input matInput [matDatepicker]="picker1">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              </mat-radio-button><br>
+
+              <mat-radio-button value="2">Vícedenní
+                <mat-form-field appearance="fill" style="margin-left: 20px;">
+                  <mat-label>Vybrat časový interval</mat-label>
+                  <mat-date-range-input [formGroup]="range" [rangePicker]="picker2">
+                    <input matStartDate formControlName="start" placeholder="Začátek">
+                    <input matEndDate formControlName="end" placeholder="Konec">
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker2></mat-date-range-picker>
+
+                  </mat-form-field>
+              </mat-radio-button><br>
+            </mat-radio-group>
+
+            <!--
+        <form [formGroup]="eventForm" class="form-container">
+        <div>
+          <mat-form-field style="width:100%;" class="full-width">
+            <textarea  formControlName="desc" style="width:100%; height: 100%;" matInput [placeholder]="disabled && !creatorMode ? '' :'Zde zadej v jakém termínu se akce koná.'"  value="k akci nebyly zveřejněny žádné termíny "></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+      -->
+    </div>
+  </div>
+</div>
+
+<button *ngIf="creatorMode" style="width: 30%; margin: 15px auto 0 auto" color='accent' mat-raised-button (click)="save()">Vytvořit</button>
+<div *ngIf="!creatorMode" class="row d-flex justify-content-center">
+  <div class="nadpis">Recenze</div>
+  <div class="col-md-10 col-lg-6" style="width:100%;">
+    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+      <div class="card-body p-4">
+
+        <div *ngIf="getRole() == 'Visitor'" class="form-outline mb-4">
+          <input type="text" class="form-control" disabled placeholder="Pro přidání své recenze se přihlašte."/>
+          <div class="form-send-wrapper">
+            <a href="/login" class="btn btn-info">Přihlásit se</a>
+          </div>
+
+        </div>
+
+        <div *ngIf="getRole() != 'Visitor' && (!hasOwnReview() || isEditing())" class="form-outline mb-4">
+          <form [formGroup]="commentForm">
+          <textarea [defaultValue]="forceReview.content" [value]="forceReview.content" rows="3" style="width:calc(100% - 1.5rem)" (keyup.enter)="pushComment(myDoods.value)" type="text" id="addANote" class="form-control" placeholder="Na akci se mi nejvíce líbilo..." #myDoods></textarea>
+          <div class="form-send-wrapper">
+            <div class="stars" >
+              <ngx-star-rating formControlName="rating" [id]="'rating'" style="font-size:1em;"></ngx-star-rating>
+            </div>
+            <a (click)="pushComment(myDoods.value); toggleEdit()" class="btn btn-info">Odeslat</a>
+            <mat-checkbox [ngModel]="forceReview.is_public" formControlName="is_public" style="margin-left: 2em;">Zveřejnit moji recenzi veřejně.</mat-checkbox>
+          </div>
+          </form>
+        </div>
+
+        <div *ngIf="hasOwnReview() && !isEditing()" class="card form-outline mb-4" [ngClass]="{'my-review-visible': forceReview.is_public, 'my-review-hidden': !forceReview.is_public}">
+          <div class="card-body">
+            <button style="position:absolute;bottom:0px;right:0px;" (click)="deleteComment()" mat-icon-button>
+              <mat-icon>delete</mat-icon>
+            </button>
+
+            <button (click)="changeVisibility(false);" style="position:absolute;bottom:0px;right:40px;" *ngIf="forceReview.is_public" mat-icon-button>
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button (click)="changeVisibility(true);" style="position:absolute;bottom:0px;right:40px;" *ngIf="!forceReview.is_public" mat-icon-button>
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+
+            <button style="position:absolute;bottom:0px;right:80px;" (click)="toggleEdit()" mat-icon-button>
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <p>{{this.Event.user?.review?.content}}</p>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <!-- <img
+                  src="{{review.img_path}}"
+                  alt="avatar"
+                  width="25"
+                  height="25"s
+                />-->
+                <img
+                  src='../../../assets/AppImages/profileImage.png'
+                  alt="avatar"
+                  width="25"
+                  height="25"
+                />
+                <p class="small mb-0 ms-2">Vy</p>
+                <p class="small mb-0 ms-2">{{this.Event.user?.review?.date | date:'d. M. yyyy' }}&nbsp;</p>
+                <span *ngFor="let item of createRange(this.Event.user?.review?.value || 0);">
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4" *ngFor="let review of Event.reviews">
+          <div class="card-body">
+            <p>{{review.content}}</p>
+
+            <div class="d-flex justify-content-between">
+              <div class="d-flex flex-row align-items-center">
+                <!-- <img
+                  src="{{review.img_path}}"
+                  alt="avatar"
+                  width="25"
+                  height="25"
+                />-->
+                <img
+                  src='../../../assets/AppImages/profileImage.png'
+                  alt="avatar"
+                  width="25"
+                  height="25"
+                />
+
+                <p class="small mb-0 ms-2">{{review.author}}</p>
+                <p class="small mb-0 ms-2">{{review.date | date:'d. M. yyyy' }}&nbsp;</p>
+                <span *ngFor="let item of createRange(review.value);">
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  </div>
+  </mat-card-content>
+
+<!-- </mat-card> -->
+
+
+
+

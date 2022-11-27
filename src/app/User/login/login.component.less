@@ -1,0 +1,339 @@
+/*
+  @project Roadmap
+  @author xsvond00
+*/
+
+@Primary: #ffffff;
+@Accent: #F3706D; //#ed2553;
+.wrapper{
+  height: 100vh;
+  width: 100vw;
+}
+.loginform{
+  margin: auto;
+  max-height: 200px;
+
+  transform: scale(0.70) translateY(20vh);
+}
+.card:first-child {
+  background: #fafafa;
+  height: 10px;
+  border-radius: 5px 5px 0 0;
+  margin: 0 10px;
+  padding: 0;
+}
+.card {
+  position: relative;
+  background: @Primary;
+  border-radius: 5px;
+  padding: 60px 0 40px 0;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 0.3s ease;
+}
+.card .title {
+  position: relative;
+  z-index: 1;
+  border-left: 5px solid @Accent;
+  margin: 0 0 35px;
+  padding: 10px 0 10px 50px;
+  color: @Accent;
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.card .input-container {
+  position: relative;
+  margin: 0 60px 50px;
+}
+.card .input-container label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #757575;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 60px;
+  transition: 0.2s ease;
+}
+.card .input-container input {
+  outline: none;
+  z-index: 1;
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 60px;
+  border: 0;
+  color: #212121;
+  font-size: 24px;
+  font-weight: 400;
+}
+.card .input-container .bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: #757575;
+  width: 100%;
+  height: 1px;
+}
+.card .footer {
+  margin: 40px 0 0;
+  color: #d3d3d3;
+  font-size: 24px;
+  font-weight: 300;
+  text-align: center;
+}
+.card .button-container {
+  margin: 0 60px;
+  text-align: center;
+}
+.card .button-container button {
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  background: 0;
+  width: 240px;
+  border: 2px solid #e3e3e3;
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+.card .button-container button:hover {
+  border: 2px solid @Accent;
+  color: @Accent;
+}
+.card.alt .toggle {
+  position: relative;
+  background: @Accent;
+  width: 140px;
+  height: 140px;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  color: @Primary;
+  font-size: 58px;
+  line-height: 140px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.01 ease;
+}
+.card.alt .toggle:hover{
+  background-color: lighten(@Accent,5%);
+}
+.container.active .card.alt .toggle:hover{
+  background-color: @Accent;
+  cursor: auto;
+}
+.card.alt .title {
+  position: relative;
+  border-color: @Primary;
+  color: @Primary;
+}
+.card.alt .title .close {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 60px;
+  display: inline;
+  color: @Primary;
+  font-size: 58px;
+  font-weight: 400;
+}
+@media only screen and (max-width: 600px) {
+  .card.alt .title .close {
+   transform: translate(45px,-40px);
+  }
+}
+.card.alt {
+  position: absolute;
+  top: 40px;
+  right: -70px;
+  z-index: 10;
+  width: 140px;
+  height: 140px;
+  background: none;
+  border-radius: 100%;
+  box-shadow: none;
+  padding: 0;
+  transition: 0.3s ease;
+}
+.card.alt .title, .card.alt .input-container, .card.alt .button-container {
+  left: 100px;
+  opacity: 0;
+  visibility: hidden;
+}
+.container.active .card.alt {
+  top: 20px;
+  right: 0;
+  width: 100px;
+  min-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  padding: 60px 0 40px;
+  overflow: hidden;
+}
+.container.active .card.alt .toggle {
+  position: absolute;
+  top: 40px;
+  right: -70px;
+  box-shadow: none;
+  transform: scale(15);
+  transition: transform 0.6s ease;
+}
+
+.container.active .card.alt .title, .container.active .card.alt .input-container, .container.active .card.alt .button-container {
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s ease;
+      transition-delay: 0s;
+}
+.card.alt .title .close {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 60px;
+  display: inline;
+  color: @Primary;
+  font-size: 58px;
+  font-weight: 400;
+}
+.container.active .card.alt .title, .container.active .card.alt .input-container, .container.active .card.alt .button-container {
+  left: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s ease;
+      transition-delay: 0s;
+}
+.card.alt .input-container .bar {
+  background: rgba(255, 255, 255, 0.8);
+}
+.container.active .card.alt .input-container:nth-child(1) {
+  transition-delay: 0.3s;
+}
+.container.active .card.alt .input-container:nth-child(2) {
+  transition-delay: 0.5s;
+}
+.card.alt .input-container input {
+  color: @Primary;
+}
+.container.active .card.alt .input-container:nth-child(3) {
+  transition-delay: 0.6s;
+}
+.container.active .card.alt .input-container:nth-child(4) {
+  transition-delay: 0.7s;
+}
+.container.active .card.alt .button-container {
+  transition-delay: 0.8s;
+}
+.card.alt .toggle {
+  position: relative;
+  background: @Accent;
+  width: 140px;
+  height: 140px;
+  border-radius: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  color: @Primary;
+  font-size: 58px;
+  line-height: 140px;
+  text-align: center;
+  cursor: pointer;
+}
+.card.alt .toggle::before {
+  content: "";
+  white-space: pre;
+  display: inline-block;
+  font: normal normal normal 10px/1 FontAwesome;
+      font-size: 14px;
+  font-size: 50px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, -20px);
+  transition: 0.6s ease;
+}
+.card.alt .toggle::after{
+  color: white;
+  text-transform: uppercase;
+  content: "Registrovat";
+  white-space: pre;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 17px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, -125px);
+  transition: 0.6s ease;
+}
+.container.active .card.alt .toggle::before {
+  content: "";
+}
+.card.alt .input-container label {
+  color: rgba(255, 255, 255, 0.8);
+}
+.card.alt .button-container button:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.card .button-container button::before {
+
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  background: @Accent;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  margin: -15px 0 0 -15px;
+  opacity: 0;
+  transition: 0.3s ease;
+
+}
+.container.active .card.alt {
+  top: 20px;
+  right: 0;
+  width: 100%;
+  min-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  padding: 60px 0 40px;
+  overflow: hidden;
+}
+.card.alt .button-container button span {
+  color: @Accent;
+}
+.card.alt .button-container button {
+  width: 100%;
+  background: @Primary;
+  border-color: @Primary;
+}
+.card.alt .input-container input:focus ~ label {
+  color: @Primary;
+}
+.card .input-container input:focus ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -50%) scale(0.75);
+}
+.card.alt .input-container inpu:focus ~ .bar{
+  background: rgba(255, 255, 255, 0.8);
+}
+.card.alt .title .close::before {
+  content: "×";
+}
+.card .input-container input:valid ~ label {
+  color: #9d9d9d;
+  transform: translate(-12%, -50%) scale(0.75);
+}
+.card.alt .input-container input:valid ~ label {
+  color: @Primary;
+}
+.form-input{
+  margin-top: 1em;
+}

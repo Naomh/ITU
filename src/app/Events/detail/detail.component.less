@@ -1,0 +1,276 @@
+/*
+  @project Roadmap
+  @author xhencl02
+*/
+
+@Blue:   #5284f4;
+@Purple: #8D5ECD;
+@Yellow: #F8B761;
+@Orange: #FD8590;
+.card-img {
+  height: 300px;
+  background-position: center;
+  background-clip: padding-box;
+  background-size: cover;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+div.stars {
+  width: 100%;
+  display: inline-block;
+}
+.creator{
+  padding: 0px 200px 50px 200px;
+  color: black;
+}
+.form-send-wrapper {
+  width: 100%;
+  margin-top: 1em;
+}
+.user-card{
+    width: 70%;
+    margin: auto;
+    min-width: 330px;
+    //top: 100px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 600px;
+  }
+  .detail{
+    //margin-top: 100px;
+    position: relative;
+    top: 100px;
+  }
+
+  .card-img {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .my-review-visible {
+    background-color: rgb(243, 255, 236);
+  }
+  .my-review-hidden {
+    background-color: rgb(255, 236, 236);
+  }
+
+  .card-title {
+   // margin-bottom: 0.3rem;
+    font-size: 20px;
+  }
+
+  .cat {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .fa-users {
+    margin-left: 1rem;
+  }
+
+  .card-footer {
+    font-size: 0.8rem;
+  }
+  .mat-card{
+    padding: 0px;
+  }
+  .btn-info{
+    background-color: @Orange;
+    color:  white;
+    border-color: white;
+  }
+  .btn-light{
+    background-color: @Orange;
+    color:  white;
+    border: none;
+    margin-right: 10px;
+  }
+  .mat-chip-list-wrapper{
+    margin: 15px;
+  }
+  .nadpis{
+    margin-top: 10px;
+  }
+  .title {
+    font-size: 35px;
+    padding: 10px 0;
+    width: 400px;
+    line-height: 40px;
+  }
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+  }
+  .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+    color: #222;
+  }
+  .radio-button {
+    margin: 5px;
+  }
+  .subtitle {
+    font-size: 25px;
+  }
+  .image-box {
+    width: 25vw;
+    height: 25vw;
+    margin: auto;
+    position: relative;
+  }
+
+  .image {
+   // border: 2px black solid;
+    display: block;
+    overflow: hidden;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+    width: inherit;
+    height: inherit;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color:rgb(66, 134, 244);
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color:rgb(66, 134, 244);
+    background-color:rgb(66, 134, 244) ;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+      background-color:rgb(255, 37, 37,.26);
+  }
+
+  .image img {
+    width: auto;
+    height: 100%;
+    margin-left: -50px;
+  }
+  textarea{
+    resize:none;
+    height: fit-content;
+    box-sizing: content-box;
+    overflow-y: visible;
+  }
+  .overlay {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: relative;
+    text-align: center;
+    margin-left: calc(10vw - 6.5vw);
+    vertical-align: middle;
+    transform: translate(30px, 30px);
+    font-size: 1.5vw;
+    border-radius: 10px;
+    line-height: 30px;
+    color: white;
+    background-color: #3f51b5;
+    padding-top: calc(15px - 0.75vw);
+    width: 12vw;
+    height: 40px;
+    top: -58%;
+  }
+  .image-box:hover .image.edit {
+    opacity: 0.3;
+    cursor: pointer;
+  }
+  .image-box:hover .overlay {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+
+  .example-tel-input-container {
+    display: flex;
+  }
+
+  .example-tel-input-element {
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    font: inherit;
+    text-align: center;
+  }
+
+  .example-tel-input-spacer {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  :host.example-floating .example-tel-input-spacer {
+    opacity: 1;
+  }
+
+  .mat-form-field-infix{
+    width: 100%;
+  }
+  .form-box{
+    margin-right:40px;
+    margin-bottom: 30px;
+  }
+  .container{
+    margin-top:100px;
+  }
+  .chip-choose{
+    margin: auto 10%;
+    width: 85%;
+  }
+  .term-box{
+    margin-right: 0 70px 30px 40px;
+  }
+  .nadpis{
+    font-size: 20px;
+    margin: 10px auto;
+  }
+  .m-auto{
+    margin: auto;
+  }
+  .kategorie-vyber{
+    width:30vw ;
+    margin-bottom: 15px;
+  }
+  .time-value{
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .event-title{
+    line-height: 30px;
+    width: 300px;
+  }
+  @media only screen and (max-width: 750px) {
+  .closebutton{
+  transform: translate(-45vw,20px);
+  }
+*{
+  padding: 0;
+  margin: 0;
+}
+.image-box{
+  width: 100vw;
+  max-height: 25vw;
+  margin-bottom: 150px;
+}
+
+.form-box{
+  margin-top: 50px;
+}
+.kategorie-vyber{
+  width: 70vw;
+}
+.term-box{
+  width:60%;
+}
+  }
+
+  @media only screen and (max-width: 500px) {
+    .title{
+      width: 50%;
+    }
+    .mat-dialog-container{
+      overflow-x:hidden;
+      overflow-y:auto;
+    }
+      }

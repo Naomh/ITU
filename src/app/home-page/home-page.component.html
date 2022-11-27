@@ -1,0 +1,59 @@
+<!--
+  @project Roadmap
+  @author xkrizv03
+-->
+
+<div class="banner">
+    <div class="slogan">
+  #You snooze you lose
+    </div>
+   <!-- <img class="banner-image" src="https://cdn.pixabay.com/photo/2017/07/03/20/17/colorful-2468874_960_720.jpg"> -->
+    <img class="banner-image" src="https://cdn.pixabay.com/photo/2013/07/12/13/27/tool-147052_960_720.png">
+  </div>
+  <div class="banner2">
+    <button mat-button class="banner-button" routerLink="/database">Jdi do sebe!</button>
+  </div>
+
+<div class="statistics">
+    <div class="row">
+        <div class="col-md-4">
+          <div class="stat-num">{{pageInfo.total_events}}</div>
+          <div class="stat-text">Aktuálních příležostí!</div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-num">{{pageInfo.total_upcoming}}</div>
+          <div class="stat-text">Akcí v následujících 30 dnech!</div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-num">{{pageInfo.total_users}}</div>
+          <div class="stat-text">Témat, ze které si vybereš to své!</div>
+        </div>
+    </div>
+</div>
+
+<div class="popular">
+  <h1 class="nadpis">Top 3 nejžhavější akce</h1>
+
+
+<div class="row">
+  <mat-card  class="boxes mat-elevation-z4 col-md-4" *ngFor="let event of Events">
+    <div class="card-img"  [ngStyle]="{ 'background-image': 'url(' + getImage(event.img_path) + ')'}"></div>
+    <div class="card-img-overlay">
+      <a class="btn btn-light btn-sm">{{decodeDuration(event.duration_type)}}</a>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">{{event.name}}</h4>
+        <small>Organizátor: {{event.org_name}}</small>
+      <p class="card-text">{{ event.description | slice:0:200 }}{{event.description.length > 200 ? '...' : ''}}</p>
+      <a (click)="setViewed(event.event_id)" class="btn btn-info">Detail</a>
+    </div>
+    <div class="card-footer text-muted d-flex justify-content-between bg-transparent border-top-0">
+      <div class="categorie-card">
+        Témata: {{decodeTopicTagBa(event.topic_tag_ba)}}
+      <br>
+        Určeno pro: {{decodeTypeTagBa(event.targetg_tag_ba)}}
+      </div>
+    </div>
+</mat-card>
+</div>
+

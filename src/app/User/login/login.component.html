@@ -1,0 +1,64 @@
+<!--
+  @project Roadmap
+  @author xsvond00
+-->
+
+<div class="wrapper">
+<div class="col-md-4 loginform"><div class="container" [class.active]="active">
+  <div class="card"></div>
+<div class="card">
+  <h1 class="title">
+    Přihláš se
+  </h1>
+  <form [formGroup]="LoginForm">
+    <div class="input-container">
+      <input class="form-input" formControlName="userName" type="#{type}" id="#{label}" required="required">
+      <label for="#{label}">Uživatelské jméno</label>
+      <div class="bar"></div>
+    </div>
+    <div class="input-container">
+      <input class="form-input" formControlName="password" type="password" id="#{label}" required="required">
+      <label for="#{label}">Heslo</label>
+      <div class="bar"></div>
+    </div>
+  </form>
+    <div class="button-container">
+      <button (click)="logIn()"><span>Vstoupit</span></button>
+    </div>
+    <div class="footer"></div>
+  <div class="card alt">
+    <div class="toggle" (click)="active = true"></div>
+    <h1 class="title">Zaregistruj se
+      <div class="close" (click)="active = false"></div>
+    </h1>
+    <form [formGroup]="RegisterForm">
+      <div class="input-container">
+        <input class="form-input" formControlName="userName" type="#{type}" id="#{label}" required="required">
+        <label for="#{label}">Uživatelské jméno</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input class="form-input" formControlName="password" type="password" id="#{label}" required="required">
+        <label for="#{label}">Heslo</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input class="form-input" formControlName="passwordConfirm" type="password" id="#{label}" required="required">
+        <label for="#{label}">Znovu heslo</label>
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input class="form-input" formControlName="email" type="#{type}" id="#{label}" required="required">
+        <label for="#{label}">Email</label>
+        <div class="bar"></div>
+      </div>
+    </form>
+    <div class="button-container">
+      <button (click)="register()"><span>Pokračovat</span></button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
